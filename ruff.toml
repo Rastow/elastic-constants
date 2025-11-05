@@ -1,0 +1,93 @@
+line-length = 99
+preview = true
+src = ["src"]
+required-version = ">=0.14.3"
+
+[format]
+docstring-code-format = true
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
+skip-magic-trailing-comma = true
+
+[lint]
+select = [
+    "ASYNC",  # flake8-async
+    "S",  # flake8-bandit
+    "FBT",  # flake8-boolean-trap
+    "B",  # flake8-bugbear
+    "A",  # flake8-builtins
+    "COM",  # flake8-commas
+    "C4",  # flake8-comprehensions
+    "DTZ",  # flake8-datetimez
+    "T10",  # flake8-debugger
+    "EM",  # flake8-errmsg
+    "FA",  # flake8-future-annotations
+    "ISC",  # flake8-implicit-str-concat
+    "LOG",  # flake8-logging
+    "G",  # flake8-logging-format
+    "PIE",  # flake8-pie
+    "T20",  # flake8-print
+    "PT",  # flake8-pytest-style
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "SLOT",  # flake8-slots
+    "TID",  # flake8-tidy-imports
+    "TC",  # flake8-type-checking
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "I",  # isort
+    "C90",  # mccabe
+    "NPY",  # numpy-specific rules
+    "PD",  # pandas-vet
+    "N",  # pep8-naming
+    "PERF",  # perflint
+    "E",  # pycodestyle error
+    "W",  # pycodestyle warning
+    "DOC",  # pydoclint
+    "D",  # pydocstyle
+    "F",  # pyflakes
+    "PGH",  # pygrep-hooks
+    "PL",  # pylint
+    "UP",  # pyupgrade
+    "FURB",  # refurb
+    "RUF",  # ruff-specific rules
+    "TRY",  # tryceratops
+]
+ignore = [
+    # rules incompatible with the formatter
+    "W191",  # tab-indentation
+    "E111",  # indentation-with-invalid-multiple
+    "E114",  # indentation-with-invalid-multiple-comment
+    "E117",  # over-indented
+    "D206",  # docstring-tab-indentation
+    "D300",  # triple-single-quotes
+    "COM812",  # missing-trailing-comma
+    "COM819",  # prohibited-trailing-comma
+]
+typing-modules = ["typing", "typing_extensions", "numpy.typing"]
+
+[lint.per-file-ignores]
+"!src/**.py" = [
+    "DOC",  # pydoclint
+    "D",  # pydocstyle
+]
+"!tests/**.py" = ["PT"]  # flake8-pytest-style
+"tests/**.py" = ["S101"]  # assert
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[lint.isort]
+force-single-line = true
+known-first-party = ["src"]
+lines-after-imports = 2
+lines-between-types = 1
+
+[lint.pycodestyle]
+max-doc-length = 72
+max-line-length = 100
+
+[lint.pydocstyle]
+convention = "numpy"

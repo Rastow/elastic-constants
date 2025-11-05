@@ -1,0 +1,24 @@
+# compiled files
+__pycache__/
+*.py[cd]
+
+# build artifacts
+build/
+dist/
+wheels/
+
+# virtual environments
+.tox/
+.venv/
+
+# tests
+.coverage
+.coverage.*
+.pytest_cache/
+hypothesis/
+
+# linting
+.ruff_cache/
+
+# docs
+site/

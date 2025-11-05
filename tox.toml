@@ -1,0 +1,67 @@
+requires = [ "tox>=4.32", "tox-uv>=1.29" ]
+env_list = [ "3.12", "3.13", "3.14", "package", "docs", "lint", "type", "coverage" ]
+
+[env_run_base]
+description = "run tests under {env_name}"
+runner = "uv-venv-lock-runner"
+uv_python_preference = "only-managed"
+dependency_groups = [ "test" ]
+package = "wheel"
+wheel_build_env = ".pkg"
+set_env = [
+    { COVERAGE_FILE = { replace = "env", name = "COVERAGE_FILE", default = "{tox_root}{/}.coverage.{env_name}" } },
+]
+commands = [
+    [ "coverage", "erase" ],
+    [ "coverage", "run", "-m", "pytest", "--basetemp={env_tmp_dir}" ],
+    [ "coverage", "combine" ],
+]
+
+[env.coverage]
+description = "report coverage"
+base_python = [ "3.12" ]
+depends = [ "test" ]
+dependency_groups = [ "test" ]
+package = "skip"
+set_env = [
+    { COVERAGE_FILE = { replace = "env", name = "COVERAGE_FILE", default = "{tox_root}{/}.coverage" } },
+]
+commands = [
+    [ "coverage", "combine"],
+    [ "coverage", "report" ],
+]
+
+[env.package]
+description = "build and check distributions"
+base_python = [ "3.12" ]
+dependency_groups = [ "package" ]
+package = "skip"
+commands = [
+    [ "uv", "build", "--sdist", "--wheel" ],
+    [ "twine", "check", "dist/*" ],
+    [ "check-wheel-contents", "--no-config", "dist/" ],
+]
+
+#[env.docs]
+#description = "build the documentation"
+#base_python = [ "3.12" ]
+#dependency_groups = [ "docs" ]
+#package = "editable"
+#commands = [ [ "mkdocs", "build", "--clean", "--strict" ] ]
+
+[env.lint]
+description = "run linting and formatting"
+base_python = [ "3.12" ]
+dependency_groups = [ "lint" ]
+package = "skip"
+commands = [
+    [ "ruff", "check" ],
+    [ "ruff", "format", "--check" ],
+]
+
+[env.type]
+description = "run type checking"
+base_python = [ "3.12" ]
+dependency_groups = [ "type" ]
+package = "skip"
+commands = [ [ "pyright" ] ]
