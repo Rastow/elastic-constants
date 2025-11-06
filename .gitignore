@@ -21,4 +21,4 @@ hypothesis/
 .ruff_cache/
 
 # docs
-site/
+docs/_build/

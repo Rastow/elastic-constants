@@ -45,6 +45,11 @@ dependencies = [
     "spglib>=2.6.0",
 ]
 
+[project.optional-dependencies]
+visualization = [
+    "matplotlib>=3.10.7",
+]
+
 [project.urls]
 homepage = "https://pypi.org/project/elastic-constants/"
 source = "https://github.com/rastow/elastic-constants"
@@ -56,10 +61,21 @@ issues = "https://github.com/rastow/elastic-constants/issues"
 dev = [
     "tox>=4.32.0",
     "tox-uv>=1.29.0",
+    { include-group = "docs" },
+    { include-group = "lint" },
+    { include-group = "test" },
+    { include-group = "type" },
 ]
 docs = [
+    "ipykernel>=7.1.0",
+    "nbsphinx>=0.9.6",
+    "numpydoc>=1.9.0",
+    "pandas>=2.3.3",
+    "pandoc>=2.4",
     "pydata-sphinx-theme>=0.16.1",
     "sphinx>=8.2.3",
+    "sphinx-autobuild>=2025.8.25",
+    "sphinx-copybutton>=0.5.2",
 ]
 lint = [
     "ruff>=0.14.3",
