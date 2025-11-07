@@ -1,5 +1,5 @@
 requires = [ "tox>=4.32", "tox-uv>=1.29" ]
-env_list = [ "3.12", "3.13", "3.14", "coverage", "docs", "lint", "package", "type" ]
+env_list = [ "3.12", "3.13", "3.14", "coverage", "docs", "package", "style", "type" ]
 
 [env_run_base]
 description = "run tests"
@@ -23,17 +23,6 @@ commands = [
     [ "coverage", "report" ],
 ]
 
-[env.package]
-description = "build and check distributions"
-base_python = [ "3.12" ]
-dependency_groups = [ "package" ]
-package = "skip"
-commands = [
-    [ "uv", "build", "--sdist", "--wheel" ],
-    [ "twine", "check", "dist/*" ],
-    [ "check-wheel-contents", "--no-config", "dist/" ],
-]
-
 [env.docs]
 description = "build the documentation"
 base_python = [ "3.12" ]
@@ -48,14 +37,34 @@ dependency_groups = [ "docs" ]
 package = "editable"
 commands = [ [ "sphinx-autobuild", "--open-browser", "--ignore=docs{/}_build{/}*", "docs/", "docs{/}_build{/}html" ] ]
 
-[env.lint]
-description = "run linting and formatting"
+[env.package]
+description = "build and check distributions"
 base_python = [ "3.12" ]
-dependency_groups = [ "lint" ]
+dependency_groups = [ "package" ]
 package = "skip"
 commands = [
-    [ "ruff", "check" ],
+    [ "uv", "build", "--sdist", "--wheel" ],
+    [ "twine", "check", "dist/*" ],
+    [ "check-wheel-contents", "--no-config", "dist/" ],
+]
+
+[env.style]
+description = "check using linter and formatter"
+runner = "uv-venv-runner"
+base_python = [ "3.12" ]
+dependency_groups = [ "style" ]
+package = "skip"
+commands = [
     [ "ruff", "format", "--check" ],
+    [ "ruff", "check" ],
+]
+
+[env.fix]
+description = "run linter and formatter"
+base = [ "style" ]
+commands = [
+    [ "ruff", "format" ],
+    [ "ruff", "check", "--fix" ],
 ]
 
 [env.type]

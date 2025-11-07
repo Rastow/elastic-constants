@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   test:
-    name: Test using ${{ matrix.py }} on ${{ matrix.os }}
+    name: Test using python ${{ matrix.py }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -50,7 +50,7 @@ jobs:
         tox_env:
           - docs
           - package
-          - lint
+          - style
           - type
         os:
           - ubuntu-latest

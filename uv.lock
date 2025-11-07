@@ -593,12 +593,12 @@ docs = [
     { name = "sphinx-autobuild" },
     { name = "sphinx-copybutton" },
 ]
-lint = [
-    { name = "ruff" },
-]
 package = [
     { name = "check-wheel-contents" },
     { name = "twine" },
+]
+style = [
+    { name = "ruff" },
 ]
 test = [
     { name = "coverage" },
@@ -646,11 +646,11 @@ docs = [
     { name = "sphinx-autobuild", specifier = ">=2025.8.25" },
     { name = "sphinx-copybutton", specifier = ">=0.5.2" },
 ]
-lint = [{ name = "ruff", specifier = ">=0.14.3" }]
 package = [
     { name = "check-wheel-contents", specifier = ">=0.6.3" },
     { name = "twine", specifier = ">=6.2.0" },
 ]
+style = [{ name = "ruff", specifier = ">=0.14.3" }]
 test = [
     { name = "coverage", specifier = ">=7.11.0" },
     { name = "pytest", specifier = ">=8.4.2" },

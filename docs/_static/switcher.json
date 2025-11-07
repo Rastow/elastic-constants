@@ -1,0 +1,11 @@
+[
+  {
+    "version": "dev",
+    "url": "https://elastic-constants.readthedocs.io/en/latest/"
+  },
+  {
+    "name": "0.1.0 (stable)",
+    "version": "v0.1.0",
+    "url": "https://elastic-constants.readthedocs.io/en/stable/"
+  }
+]

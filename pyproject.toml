@@ -5,7 +5,7 @@ build-backend = "uv_build"
 [project]
 name = "elastic-constants"
 version = "0.1.0"
-description = "Tool for computing elastic constants from first-principles calculations."
+description = "Tools for computing the mechanical properties of crystal structures."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "BSD-2-Clause"
@@ -19,7 +19,6 @@ maintainers = [
 keywords = [
     "elastic constants",
     "linear elasticity",
-    "elastic tensor",
     "materials science",
     "solid-state physics",
     "crystallography",
@@ -54,7 +53,7 @@ visualization = [
 homepage = "https://pypi.org/project/elastic-constants/"
 source = "https://github.com/rastow/elastic-constants"
 download = "https://pypi.org/project/elastic-constants/#files"
-documentation = "https://rastow.github.io/elastic-constants"
+documentation = "https://elastic-constants.readthedocs.io/en/latest/"
 issues = "https://github.com/rastow/elastic-constants/issues"
 
 [dependency-groups]
@@ -62,8 +61,8 @@ dev = [
     "tox>=4.32.0",
     "tox-uv>=1.29.0",
     { include-group = "docs" },
-    { include-group = "lint" },
     { include-group = "test" },
+    { include-group = "style" },
     { include-group = "type" },
 ]
 docs = [
@@ -77,12 +76,12 @@ docs = [
     "sphinx-autobuild>=2025.8.25",
     "sphinx-copybutton>=0.5.2",
 ]
-lint = [
-    "ruff>=0.14.3",
-]
 package = [
     "check-wheel-contents>=0.6.3",
     "twine>=6.2.0",
+]
+style = [
+    "ruff>=0.14.3",
 ]
 test = [
     "coverage>=7.11.0",

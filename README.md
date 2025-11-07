@@ -11,17 +11,17 @@ pip install elastic-constants
 ## Features
 This library provides tools for computing the mechanical properties of
 crystal structures. Currently, only the computation of linear elastic 
-constants is provided for all crystal classes. Additionally, the library
+constants is possible for all crystal classes. Additionally, the library
 includes a useful visualization module.
 
 ## Documentation
-The [documentation](https://rastow.github.io/elastic-constants) is made
-with [Sphinx](https://www.sphinx-doc.org/en/master/)
+The [documentation](https://elastic-constants.readthedocs.io/en/latest/)
+is made with [Sphinx](https://www.sphinx-doc.org/en/master/)
 and is hosted on [GitHub Pages](https://docs.github.com/en/pages).
 
 ## Development
-This project uses [uv](https://docs.astral.sh/uv/) as the package manager
-and [tox](https://tox.wiki/en/stable/) as a task runner. After 
+This project uses [uv](https://docs.astral.sh/uv/) as the package 
+manager and [tox](https://tox.wiki/en/stable/) as a task runner. After 
 installing uv and cloning the repository, create a development 
 environment using the following commands.
 ```bash

@@ -5,6 +5,7 @@ documentation:
 https://www.sphinx-doc.org/en/master/usage/configuration.html
 """
 
+import os
 import re
 import tomllib
 
@@ -51,18 +52,43 @@ nitpicky = True
 # options for HTML output
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
+# configure version switcher, see:
+# https://github.com/pydata/pydata-sphinx-theme/blob/460545510f581b3bf9ce34ddee5501949ba1b2b7/docs/conf.py#L130
+json_url = "https://elastic-constants.readthedocs.io/en/latest/_static/switcher.json"
+version_match = os.environ.get("READTHEDOCS_VERSION")
+if not version_match or version_match.isdigit() or version_match == "latest":
+    if "-" in release:
+        version_match = "dev"
+        json_url = "_static/switcher.json"
+    else:
+        version_match = release
+elif version_match == "stable":
+    version_match = release
+
 html_theme = "pydata_sphinx_theme"
-html_theme_options = {"use_edit_page_button": True}
-# html_static_path = ["_static"]
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/rastow/elastic-constants",
+            "icon": "fa-brands fa-github",
+        },
+    ],
+    "use_edit_page_button": True,
+    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
+    "switcher": {
+        "json_url": json_url,
+        "version_match": version_match,
+    },
+}
+html_title = f"{project} v{release} Manual"
+html_static_path = ["_static"]
 html_context = {
     "github_user": "Rastow",
     "github_repo": "elastic-constants",
     "github_version": "master",
     "doc_path": "docs",
 }
-# https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/version-dropdown.html
-# https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/readthedocs.html
-# https://github.com/pydata/pydata-sphinx-theme/blob/460545510f581b3bf9ce34ddee5501949ba1b2b7/docs/conf.py#L131
 
 # apidoc options
 apidoc_modules = [{"path": "../src/elastic_constants", "destination": "reference/"}]
