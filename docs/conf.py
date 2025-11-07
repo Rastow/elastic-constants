@@ -49,9 +49,6 @@ extensions = [
 exclude_patterns = ["_build"]
 nitpicky = True
 
-# options for HTML output
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
 # configure version switcher, see:
 # https://github.com/pydata/pydata-sphinx-theme/blob/460545510f581b3bf9ce34ddee5501949ba1b2b7/docs/conf.py#L130
 json_url = "https://elastic-constants.readthedocs.io/en/latest/_static/switcher.json"
@@ -65,6 +62,9 @@ if not version_match or version_match.isdigit() or version_match == "latest":
 elif version_match == "stable":
     version_match = release
 
+# options for HTML output
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
     "icon_links": [
@@ -72,14 +72,11 @@ html_theme_options = {
             "name": "GitHub",
             "url": "https://github.com/rastow/elastic-constants",
             "icon": "fa-brands fa-github",
-        },
+        }
     ],
     "use_edit_page_button": True,
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
-    "switcher": {
-        "json_url": json_url,
-        "version_match": version_match,
-    },
+    "switcher": {"json_url": json_url, "version_match": version_match},
 }
 html_title = f"{project} v{release} Manual"
 html_static_path = ["_static"]

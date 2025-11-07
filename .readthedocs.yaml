@@ -8,6 +8,6 @@ build:
     - pandoc
   commands:
     - pip install uv
-    - uv tool install tox --with tox-uv
-    - tox run -e docs --notest
-    - tox run -e docs --skip-pkg-install
+    - uv venv
+    - uv pip install tox tox-uv
+    - uv run -e docs
