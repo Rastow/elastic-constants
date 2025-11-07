@@ -10,4 +10,4 @@ build:
     - pip install uv
     - uv venv
     - uv pip install tox tox-uv
-    - uv run -e docs
+    - uv run tox -e docs
