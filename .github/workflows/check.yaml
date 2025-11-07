@@ -39,7 +39,7 @@ jobs:
       - name: Create a virtual environment and install dependencies
         run: uv sync --locked --all-extras --no-default-groups --group=test --python=${{ matrix.py }}
       - name: Run tests
-        run: pytest
+        run: uv run pytest
 
   check:
     name: Check tox environment ${{ matrix.tox_env }} on ${{ matrix.os }}
@@ -88,8 +88,8 @@ jobs:
       - name: Create a virtual environment and sync all required dependencies
         run: uv sync --locked --all-extras --no-default-groups --group=test --python=3.12
       - name: Run pytest using coverage
-        run: coverage run -m pytest
+        run: uv run coverage run -m pytest
       - name: Combine coverage data
-        run: coverage combine
+        run: uv run coverage combine
       - name: Report and write to summary
-        run: coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+        run: uv run coverage report --format=markdown >> $GITHUB_STEP_SUMMARY

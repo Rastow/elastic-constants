@@ -53,7 +53,7 @@ nitpicky = True
 
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {"use_edit_page_button": True}
-html_static_path = ["_static"]
+# html_static_path = ["_static"]
 html_context = {
     "github_user": "Rastow",
     "github_repo": "elastic-constants",

@@ -1,0 +1,9 @@
+# lf line endings
+* text eol=lf
+
+# python source files
+*.py text diff=python
+
+# binary files
+*.pkl binary
+*.pickle binary
