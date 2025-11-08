@@ -28,14 +28,20 @@ description = "build the documentation"
 base_python = [ "3.12" ]
 dependency_groups = [ "docs" ]
 package = "editable"
-commands = [ [ "sphinx-build", "--builder=html", "--fail-on-warning", "docs", "docs{/}_build{/}html" ] ]
+commands = [
+    [ "sphinx-build", "--builder=html", "--fail-on-warning", "docs",
+    { replace = "posargs", default = [ "docs{/}_build{/}html" ], extend = true } ]
+]
 
 [env.serve]
 description = "serve the documentation"
 base_python = [ "3.12" ]
 dependency_groups = [ "docs" ]
 package = "editable"
-commands = [ [ "sphinx-autobuild", "--open-browser", "--ignore=docs{/}_build{/}*", "docs/", "docs{/}_build{/}html" ] ]
+commands = [
+    [ "sphinx-autobuild", "--open-browser", "--ignore=docs{/}_build{/}*", "docs/",
+    "docs{/}_build{/}html" ]
+]
 
 [env.package]
 description = "build and check distributions"
