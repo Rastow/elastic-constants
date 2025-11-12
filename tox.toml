@@ -29,7 +29,7 @@ base_python = [ "3.12" ]
 dependency_groups = [ "docs" ]
 package = "editable"
 commands = [
-    [ "sphinx-build", "--builder=html", "--fail-on-warning", "docs",
+    [ "sphinx-build", "--builder=html", "--fail-on-warning", "--fresh-env", "docs",
     { replace = "posargs", default = [ "docs{/}_build{/}html" ], extend = true } ]
 ]
 
@@ -39,8 +39,8 @@ base_python = [ "3.12" ]
 dependency_groups = [ "docs" ]
 package = "editable"
 commands = [
-    [ "sphinx-autobuild", "--open-browser", "--ignore=docs{/}_build{/}*", "docs/",
-    "docs{/}_build{/}html" ]
+    [ "sphinx-autobuild", "--open-browser", "--ignore=docs{/}_build{/}*", "--watch=src{/}",
+    "docs{/}", "docs{/}_build{/}html" ]
 ]
 
 [env.package]
@@ -50,8 +50,8 @@ dependency_groups = [ "package" ]
 package = "skip"
 commands = [
     [ "uv", "build", "--sdist", "--wheel" ],
-    [ "twine", "check", "dist/*" ],
-    [ "check-wheel-contents", "--no-config", "dist/" ],
+    [ "twine", "check", "dist{/}*" ],
+    [ "check-wheel-contents", "--no-config", "dist{/}" ],
 ]
 
 [env.style]

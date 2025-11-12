@@ -10,5 +10,5 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents
 
-   User Guide <user-guide/index>
+   User Guide <user_guide/index>
    Reference <reference/modules>

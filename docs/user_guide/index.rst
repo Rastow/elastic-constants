@@ -8,5 +8,5 @@ calculating energies, forces and stresses of crystal structures.
 .. toctree::
     :maxdepth: 2
 
-    Atomic Simulation Environment (ASE) <atomic-simulation-environment>
-    Quantum ESPRESSO <quantum-espresso>
+    Atomic Simulation Environment (ASE) <ase>
+    Quantum ESPRESSO (QE) <qe>

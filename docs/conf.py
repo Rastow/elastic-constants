@@ -38,23 +38,24 @@ extensions = [
     "sphinx.ext.apidoc",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
+    "sphinx.ext.autosummary",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
-    "nbsphinx",
+    "myst_nb",
     "numpydoc",
     "sphinx_copybutton",
 ]
-exclude_patterns = ["_build"]
 nitpicky = True
+exclude_patterns = ["_build"]
+source_suffix = {".rst": "restructuredtext", ".ipynb": "myst-nb"}
 
-# configure version switcher, see:
-# https://github.com/pydata/pydata-sphinx-theme/blob/460545510f581b3bf9ce34ddee5501949ba1b2b7/docs/conf.py#L130
+# configure the version switcher
 json_url = "https://elastic-constants.readthedocs.io/en/latest/_static/switcher.json"
 version_match = os.environ.get("READTHEDOCS_VERSION")
 if not version_match or version_match.isdigit() or version_match == "latest":
-    if "-" in release:
+    if "dev" in release or "rc" in release:
         version_match = "dev"
         json_url = "_static/switcher.json"
     else:
@@ -67,6 +68,8 @@ elif version_match == "stable":
 
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
+    "navbar_start": ["navbar-logo", "version-switcher"],
+    "show_nav_level": 2,
     "icon_links": [
         {
             "name": "GitHub",
@@ -75,31 +78,29 @@ html_theme_options = {
         }
     ],
     "use_edit_page_button": True,
-    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
     "switcher": {"json_url": json_url, "version_match": version_match},
 }
-html_title = f"{project} v{release} Manual"
+html_title = project
 html_static_path = ["_static"]
 html_context = {
     "github_user": "Rastow",
-    "github_repo": "elastic-constants",
+    "github_repo": project,
     "github_version": "master",
     "doc_path": "docs",
 }
 
 # apidoc options
 apidoc_modules = [{"path": "../src/elastic_constants", "destination": "reference/"}]
-apidoc_exclude_patterns = []
-apidoc_follow_links = True
 apidoc_separate_modules = True
-apidoc_module_first = False
-apidoc_implicit_namespaces = True
 
 # autodoc options
 autodoc_member_order = "bysource"
-autodoc_typehints = "both"
+autodoc_typehints = "description"
 autodoc_typehints_format = "fully-qualified"
 autodoc_inherit_docstrings = False
+
+# autosummary options
+autosummary_generate = True
 
 # intersphinx options
 intersphinx_mapping = {
@@ -111,9 +112,10 @@ intersphinx_mapping = {
     "spglib": ("https://spglib.readthedocs.io/en/stable/", None),
 }
 
-# nbsphinx
-nbsphinx_allow_errors = True
-nbsphinx_execute = "always"
+# myst options
+myst_enable_extensions = ["dollarmath"]
+myst_update_mathjax = False
+myst_dmath_double_inline = True
 
-# numpydoc
-numpydoc_validation_checks = {"all"}
+# myst-nb options
+nb_execution_mode = "cache"

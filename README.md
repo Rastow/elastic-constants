@@ -23,10 +23,11 @@ and is hosted on [GitHub Pages](https://docs.github.com/en/pages).
 This project uses [uv](https://docs.astral.sh/uv/) as the package 
 manager and [tox](https://tox.wiki/en/stable/) as a task runner. After 
 installing uv and cloning the repository, create a development 
-environment using the following commands.
+environment and run tox using the following commands.
 ```bash
 uv tool install tox --with tox-uv
 uv sync --all-extras --all-groups
+tox
 ```
 
 ## License

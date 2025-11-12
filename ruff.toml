@@ -5,6 +5,7 @@ required-version = ">=0.14.3"
 
 [format]
 docstring-code-format = true
+docstring-code-line-length = 79
 indent-style = "space"
 line-ending = "lf"
 quote-style = "double"
@@ -86,7 +87,7 @@ lines-after-imports = 2
 lines-between-types = 1
 
 [lint.pycodestyle]
-max-doc-length = 72
+max-doc-length = 80
 max-line-length = 100
 
 [lint.pydocstyle]

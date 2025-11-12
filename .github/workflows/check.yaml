@@ -58,9 +58,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-      - name: Install pandoc
-        if: ${{ matrix.tox_env == 'docs' }}
-        uses: pandoc/actions/setup@v1
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
