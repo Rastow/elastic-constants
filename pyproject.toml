@@ -1,5 +1,5 @@
 [build-system]
-requires = ["uv_build>=0.9.7,<0.10.0"]
+requires = ["uv_build>=0.9.9,<0.10.0"]
 build-backend = "uv_build"
 
 [project]
@@ -79,14 +79,15 @@ package = [
     "twine>=6.2.0",
 ]
 style = [
-    "ruff>=0.14.3",
+    "ruff>=0.14.5",
 ]
 test = [
     "coverage>=7.11.0",
-    "pytest>=8.4.2",
+    "pytest>=9.0.1",
 ]
 type = [
     "pyright>=1.1.407",
+    "pytest>=9.0.1",
 ]
 
 [tool.uv]
@@ -132,12 +133,10 @@ addopts = [
     "-v",
     "--doctest-modules",
     "--import-mode=importlib",
-    "--strict-config",
-    "--strict-markers",
 ]
 empty_parameter_set_mark = "xfail"
 filterwarnings = ["error"]
-minversion = "8.4"
+minversion = "9.0"
 pythonpath = "src"
+strict = true
 testpaths = ["src", "tests"]
-xfail_strict = true

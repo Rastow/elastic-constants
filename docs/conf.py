@@ -94,9 +94,11 @@ apidoc_modules = [{"path": "../src/elastic_constants", "destination": "reference
 apidoc_separate_modules = True
 
 # autodoc options
+autodoc_class_signature = "separated"
 autodoc_member_order = "bysource"
 autodoc_typehints = "description"
 autodoc_typehints_format = "fully-qualified"
+autodoc_typehints_description_target = "documented"
 autodoc_inherit_docstrings = False
 
 # autosummary options
@@ -104,7 +106,7 @@ autosummary_generate = True
 
 # intersphinx options
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
+    "python": ("https://docs.python.org/3.12", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),

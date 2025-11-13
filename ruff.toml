@@ -1,7 +1,7 @@
 line-length = 99
 preview = true
 src = ["src"]
-required-version = ">=0.14.3"
+required-version = ">=0.14.5"
 
 [format]
 docstring-code-format = true
