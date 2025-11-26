@@ -25,12 +25,6 @@ class Crystal:
 
     Attributes
     ----------
-    lattice: numpy.ndarray[tuple[typing.Any, ...], numpy.double]
-        Matrix containing the three crystal lattice vectors as its rows.
-    positions : numpy.ndarray[tuple[typing.Any, ...], numpy.double]
-        Atomic positions given as fractional coordinates.
-    numbers : numpy.ndarray[tuple[typing.Any, ...], numpy.ubyte]
-        Arbitrary numbers to distinguish the different atomic species.
     symmetry_dataset : spglib.spglib.SpglibDataset
         Dataclass containing symmetry related information.
 
@@ -59,9 +53,13 @@ class Crystal:
 
         Parameters
         ----------
-        lattice : list[list[float]]
-        positions : list[list[float]]
-        numbers : list[int]
+        lattice: numpy.typing.ArrayLike
+            Matrix containing the three crystal lattice vectors as its rows.
+        positions : numpy.typing.ArrayLike
+            List of atomic positions given as fractional coordinates.
+        numbers : numpy.typing.ArrayLike
+            List of (arbitrary) numbers to distinguish the different atomic
+            species.
 
         Other Parameters
         ----------------
@@ -82,7 +80,7 @@ class Crystal:
             cell, symprec=symmetry_precision, angle_tolerance=angle_tolerance
         )
         if symmetry_dataset is None:
-            msg = f"Spglib failed due to {spglib.spglib.get_error_message()}."
+            msg = f"spglib failed due to {spglib.spglib.get_error_message()}."
             raise ValueError(msg)
         self.symmetry_dataset: SpglibDataset = symmetry_dataset
         self.lattice: NDArray[np.double] = np.asarray(lattice, dtype=np.double)

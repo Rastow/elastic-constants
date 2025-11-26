@@ -92,3 +92,10 @@ max-line-length = 100
 
 [lint.pydocstyle]
 convention = "numpy"
+
+[lint.pylint]
+allow-dunder-method-names = [
+    "__array_finalize__",
+    "__array_function__",
+    "__array_ufunc__",
+]

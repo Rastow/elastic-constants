@@ -48,6 +48,10 @@ extensions = [
     "sphinx_copybutton",
 ]
 nitpicky = True
+nitpick_ignore = {
+    ("py:class", "numpy.typing.ArrayLike"),
+    ("py:class", "numpy.typing.NDArray"),
+}
 exclude_patterns = ["_build"]
 source_suffix = {".rst": "restructuredtext", ".ipynb": "myst-nb"}
 
@@ -92,10 +96,12 @@ html_context = {
 # apidoc options
 apidoc_modules = [{"path": "../src/elastic_constants", "destination": "reference/"}]
 apidoc_separate_modules = True
+apidoc_automodule_options = {"members", "special-members", "show-inheritance"}
 
 # autodoc options
 autodoc_class_signature = "separated"
 autodoc_member_order = "bysource"
+autodoc_default_options = {"exclude-members": "__weakref__"}
 autodoc_typehints = "description"
 autodoc_typehints_format = "fully-qualified"
 autodoc_typehints_description_target = "documented"
@@ -103,6 +109,7 @@ autodoc_inherit_docstrings = False
 
 # autosummary options
 autosummary_generate = True
+autosummary_ignore_module_all = False
 
 # intersphinx options
 intersphinx_mapping = {
@@ -121,3 +128,12 @@ myst_dmath_double_inline = True
 
 # myst-nb options
 nb_execution_mode = "cache"
+
+# napoleon options
+napoleon_google_docstring = False
+napoleon_include_init_with_doc = True
+
+# numpydoc options
+numpydoc_show_class_members = False
+numpydoc_show_inherited_class_members = False
+numpydoc_xref_param_type = True

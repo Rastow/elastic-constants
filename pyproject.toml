@@ -126,8 +126,9 @@ verboseOutput = true
 typeCheckingMode = "strict"
 deprecateTypingAliases = true
 enableExperimentalFeatures = true
+reportUnnecessaryTypeIgnoreComment= true
 
-[tool.pytest.ini_options]
+[tool.pytest]
 addopts = [
     "-ra",
     "-v",

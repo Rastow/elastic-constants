@@ -24,4 +24,4 @@ def test_crystal_invalid_input(
     lattice: list[list[float]], positions: list[list[float]], numbers: list[int], err_msg: str
 ) -> None:
     with pytest.raises(ValueError, match=err_msg):
-        Crystal(lattice, positions, numbers)
+        _ = Crystal(lattice, positions, numbers)
