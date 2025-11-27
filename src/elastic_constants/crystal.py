@@ -79,9 +79,11 @@ class Crystal:
         symmetry_dataset = spglib.spglib.get_symmetry_dataset(
             cell, symprec=symmetry_precision, angle_tolerance=angle_tolerance
         )
+
         if symmetry_dataset is None:
             msg = f"spglib failed due to {spglib.spglib.get_error_message()}."
             raise ValueError(msg)
+
         self.symmetry_dataset: SpglibDataset = symmetry_dataset
         self.lattice: NDArray[np.double] = np.asarray(lattice, dtype=np.double)
         self.positions: NDArray[np.double] = np.asarray(positions, dtype=np.double)

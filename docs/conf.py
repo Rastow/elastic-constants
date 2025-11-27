@@ -48,10 +48,7 @@ extensions = [
     "sphinx_copybutton",
 ]
 nitpicky = True
-nitpick_ignore = {
-    ("py:class", "numpy.typing.ArrayLike"),
-    ("py:class", "numpy.typing.NDArray"),
-}
+nitpick_ignore = {("py:class", "numpy.typing.ArrayLike"), ("py:class", "numpy.typing.NDArray")}
 exclude_patterns = ["_build"]
 source_suffix = {".rst": "restructuredtext", ".ipynb": "myst-nb"}
 

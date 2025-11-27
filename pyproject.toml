@@ -83,6 +83,7 @@ style = [
 ]
 test = [
     "coverage>=7.11.0",
+    "hypothesis[numpy]>=6.148.3",
     "pytest>=9.0.1",
 ]
 type = [
@@ -133,11 +134,12 @@ addopts = [
     "-ra",
     "-v",
     "--doctest-modules",
+    "--doctest-continue-on-failure",
     "--import-mode=importlib",
 ]
-empty_parameter_set_mark = "xfail"
+empty_parameter_set_mark = "fail_at_collect"
 filterwarnings = ["error"]
 minversion = "9.0"
-pythonpath = "src"
+pythonpath = ["src"]
 strict = true
 testpaths = ["src", "tests"]

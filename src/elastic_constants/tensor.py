@@ -65,7 +65,7 @@ class Tensor(np.ndarray):
             msg = "array must only contain number data types."
             raise TypeError(msg)
 
-        if array.ndim != cls.rank:
+        if cls.rank & (array.ndim != cls.rank):
             msg = f"input for {cls.__name__.lower()} must be rank {cls.rank}."
             raise ValueError(msg)
 
@@ -98,7 +98,7 @@ class Tensor(np.ndarray):
         *inputs: np.ndarray,
         **kwargs: Any,
     ) -> Any:
-        """Override the default behaviour of universal functions
+        """Override the default behaviour of universal functions.
 
         All inputs of type :class:`Tensor` are converted to
         :class:`numpy.ndarray` before passing them to the universal function.
@@ -214,4 +214,4 @@ class Tensor(np.ndarray):
         )
         einsum_string = f"{q_indices},{in_indices}->{out_indices}"
         einsum_args = [array] * self.rank + [self]
-        return np.einsum(einsum_string, *einsum_args)
+        return type(self)(np.einsum(einsum_string, *einsum_args))
