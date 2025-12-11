@@ -17,7 +17,7 @@ includes a useful visualization module.
 ## Documentation
 The [documentation](https://elastic-constants.readthedocs.io/en/latest/)
 is made with [Sphinx](https://www.sphinx-doc.org/en/master/)
-and is hosted on [GitHub Pages](https://docs.github.com/en/pages).
+and is hosted on [ReadTheDocs](https://about.readthedocs.com/).
 
 ## Development
 This project uses [uv](https://docs.astral.sh/uv/) as the package 

@@ -49,7 +49,7 @@ class Crystal:
         symmetry_precision: float = 1e-5,
         angle_tolerance: float = -1.0,
     ) -> None:
-        """Initialize the crystal class.
+        """Initialize an instance of the crystal class.
 
         Parameters
         ----------

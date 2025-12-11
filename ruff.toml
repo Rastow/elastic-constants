@@ -94,8 +94,4 @@ max-line-length = 100
 convention = "numpy"
 
 [lint.pylint]
-allow-dunder-method-names = [
-    "__array_finalize__",
-    "__array_function__",
-    "__array_ufunc__",
-]
+allow-dunder-method-names = ["__array__"]
