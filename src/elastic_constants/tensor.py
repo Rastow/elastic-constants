@@ -71,7 +71,10 @@ class Tensor(ABC):
         AttributeError
             If the tensor subclass does not define its rank.
         ValueError
-            If the Voigt notation scaling factor contains non-positive values.
+            If the Voigt notation scaling factor does not have the correct
+            shape.
+        ValueError
+            If the Voigt notation scaling factor contains zero values.
         """
         super().__init_subclass__(**kwargs)
 
@@ -89,8 +92,15 @@ class Tensor(ABC):
             else np.ones(cls.voigt_shape, dtype=np.double)
         )
 
-        if np.any(cls.voigt_scale <= 0):
-            msg = f"voigt scale for {cls.__name__.lower()} tensor must be positive."
+        if cls.voigt_scale.shape != cls.voigt_shape:
+            msg = (
+                f"voigt scale for {cls.__name__.lower()} tensor must be of shape "
+                f"{cls.voigt_shape}."
+            )
+            raise ValueError(msg)
+
+        if np.any(np.isclose(cls.voigt_scale, 0)):
+            msg = f"voigt scale for {cls.__name__.lower()} tensor must not contain zero."
             raise ValueError(msg)
 
     def __init__(self, array_like: ArrayLike) -> None:
@@ -132,7 +142,7 @@ class Tensor(ABC):
         self._array: NDArray[np.number] = array
 
         if self.voigt_symmetric and not self.is_voigt_symmetric():
-            msg = f"input for {self.__class__.__name__.lower()} tensor must be Voigt symmetric."
+            msg = f"input for {self.__class__.__name__.lower()} tensor must be voigt symmetric."
             raise ValueError(msg)
 
     def __repr__(self) -> str:
@@ -229,7 +239,7 @@ class Tensor(ABC):
         return cls(array)
 
     def is_symmetric(
-        self, indices: tuple[int, ...] | None = None, tolerance: float = 1e-8
+        self, indices: tuple[int, ...] | None = None, tolerance: float = 1e-6
     ) -> bool:
         """Check for symmetry under permutation of the given indices.
 
@@ -254,7 +264,7 @@ class Tensor(ABC):
             for i, j in itertools.combinations(indices, 2)
         )
 
-    def is_voigt_symmetric(self, tolerance: float = 1e-8) -> bool:
+    def is_voigt_symmetric(self, tolerance: float = 1e-6) -> bool:
         """Check if the tensor is Voigt symmetric.
 
         Parameters
@@ -288,7 +298,7 @@ class Tensor(ABC):
             The tensor in Voigt notation.
         """
         if not self.is_voigt_symmetric():
-            msg = "tensor must be Voigt symmetric."
+            msg = "tensor must be voigt symmetric."
             raise ValueError(msg)
 
         # initialize voigt array
@@ -307,7 +317,7 @@ class Tensor(ABC):
         # scale the voigt array based on voigt scale
         return voigt_array * self.voigt_scale
 
-    def transform(self, matrix: ArrayLike, tolerance: float = 1e-8) -> Self:
+    def transform(self, matrix: ArrayLike) -> Self:
         r"""Apply a transformation matrix to the tensor.
 
         Only transformations that preserve the Euclidean metric are allowed,
@@ -318,11 +328,6 @@ class Tensor(ABC):
         ----------
         matrix : numpy.typing.ArrayLike
             The real-valued transformation matrix.
-
-        Other Parameters
-        ----------------
-        tolerance : float
-            Absolute tolerance for floating point comparisons.
 
         Returns
         -------
@@ -354,9 +359,13 @@ class Tensor(ABC):
             msg = f"transformation matrix must be of shape {(self.dimension, self.dimension)}."
             raise ValueError(msg)
 
-        if not np.allclose(array @ array.T, np.eye(self.dimension), atol=tolerance):
+        if not np.allclose(array @ array.T, np.eye(self.dimension)):
             msg = "transformation matrix must be orthogonal."
             raise ValueError(msg)
+
+        # scalars are invariant under transformations
+        if self.rank == 0:
+            return type(self)(self._array.copy())
 
         # build the einstein summation string containing the appropriate indices
         t_out_indices = string.ascii_lowercase[: self.rank]
