@@ -42,7 +42,7 @@ class Stress(Tensor):
 
         Returns
         -------
-        numpy.typing.NDArray[np.double]
+        numpy.typing.NDArray[numpy.double]
             Second Piola-Kirchhoff stress tensor.
 
         Notes

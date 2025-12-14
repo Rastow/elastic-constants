@@ -12,8 +12,9 @@ from typing import Unpack
 import numpy as np
 import pytest
 
-from hypothesis import assume, settings
+from hypothesis import assume
 from hypothesis import given
+from hypothesis import settings
 from hypothesis.extra.numpy import array_shapes
 from hypothesis.extra.numpy import arrays
 from hypothesis.extra.numpy import byte_string_dtypes
@@ -173,11 +174,11 @@ def test_tensor_subclass_invalid_voigt_scale_shape(
 @settings(max_examples=10)
 @given(numeric_arrays(integers(min_value=0, max_value=6).map(voigt_shape)))
 def test_tensor_subclass_invalid_voigt_scale_values(voigt_scale: NDArray[np.number]) -> None:
-    indices = np.random.choice((True, False), voigt_scale.shape)
+    rng = np.random.Generator(np.random.PCG64())
+    indices = rng.choice((True, False), voigt_scale.shape)
+    assume(np.any(~indices))
     voigt_scale[indices] = 0
-    rank = voigt_scale.ndim * 2 - (
-        0 if voigt_scale.ndim == 0 or voigt_scale.shape[0] != 3 else 1
-    )
+    rank = voigt_scale.ndim * 2 - (0 if voigt_scale.ndim == 0 or voigt_scale.shape[0] != 3 else 1)  # noqa: PLR2004
     err_msg = "must not contain zero."
     with pytest.raises(ValueError, match=err_msg):
         _ = tensor_subclass(rank=rank, voigt_scale=voigt_scale)
@@ -254,6 +255,8 @@ def test_tensor_from_voigt_invalid_shape(rank: int, voigt_array: NDArray[np.numb
         _ = tensor_subclass(rank=rank, voigt_symmetric=True).from_voigt(voigt_array)
 
 
+# TODO: write test for even and uneven ranks
+# using e.g. .filter(lambda x: x % 2 == 0)
 @given(numeric_arrays(integers(min_value=0, max_value=6).map(voigt_shape)))
 def test_tensor_from_voigt(voigt_array: NDArray[np.number]) -> None:
     dimension = 3
