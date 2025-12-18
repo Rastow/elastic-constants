@@ -577,6 +577,7 @@ test = [
     { name = "pytest" },
 ]
 type = [
+    { name = "hypothesis", extra = ["numpy"] },
     { name = "pyright" },
     { name = "pytest" },
 ]
@@ -627,6 +628,7 @@ test = [
     { name = "pytest", specifier = ">=9.0.1" },
 ]
 type = [
+    { name = "hypothesis", extras = ["numpy"], specifier = ">=6.148.3" },
     { name = "pyright", specifier = ">=1.1.407" },
     { name = "pytest", specifier = ">=9.0.1" },
 ]

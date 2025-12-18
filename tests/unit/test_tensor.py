@@ -23,9 +23,11 @@ from hypothesis.extra.numpy import datetime64_dtypes
 from hypothesis.extra.numpy import floating_dtypes
 from hypothesis.extra.numpy import integer_dtypes
 from hypothesis.extra.numpy import unicode_string_dtypes
+from hypothesis.strategies import DataObject
 from hypothesis.strategies import DrawFn
 from hypothesis.strategies import SearchStrategy
 from hypothesis.strategies import composite
+from hypothesis.strategies import data
 from hypothesis.strategies import integers
 from hypothesis.strategies import just
 from hypothesis.strategies import one_of
@@ -171,12 +173,11 @@ def test_tensor_subclass_invalid_voigt_scale_shape(
         _ = tensor_subclass(rank=rank, voigt_scale=voigt_scale)
 
 
-@settings(max_examples=10)
-@given(numeric_arrays(integers(min_value=0, max_value=6).map(voigt_shape)))
-def test_tensor_subclass_invalid_voigt_scale_values(voigt_scale: NDArray[np.number]) -> None:
-    rng = np.random.Generator(np.random.PCG64())
-    indices = rng.choice((True, False), voigt_scale.shape)
-    assume(np.any(~indices))
+@given(numeric_arrays(integers(min_value=0, max_value=6).map(voigt_shape)), data())
+def test_tensor_subclass_invalid_voigt_scale_values(
+    voigt_scale: NDArray[np.number], data: DataObject
+) -> None:
+    indices = data.draw(arrays(dtype=bool, shape=voigt_scale.shape).filter(np.any))
     voigt_scale[indices] = 0
     rank = voigt_scale.ndim * 2 - (0 if voigt_scale.ndim == 0 or voigt_scale.shape[0] != 3 else 1)  # noqa: PLR2004
     err_msg = "must not contain zero."
@@ -255,9 +256,16 @@ def test_tensor_from_voigt_invalid_shape(rank: int, voigt_array: NDArray[np.numb
         _ = tensor_subclass(rank=rank, voigt_symmetric=True).from_voigt(voigt_array)
 
 
-# TODO: write test for even and uneven ranks
-# using e.g. .filter(lambda x: x % 2 == 0)
-@given(numeric_arrays(integers(min_value=0, max_value=6).map(voigt_shape)))
+@given(
+    one_of(
+        numeric_arrays(
+            integers(min_value=0, max_value=6).filter(lambda x: x % 2 == 0).map(voigt_shape)
+        ),
+        numeric_arrays(
+            integers(min_value=0, max_value=6).filter(lambda x: x % 2 == 1).map(voigt_shape)
+        ),
+    )
+)
 def test_tensor_from_voigt(voigt_array: NDArray[np.number]) -> None:
     dimension = 3
     rank = voigt_array.ndim * 2 - (
