@@ -1,21 +1,29 @@
 """Crystallography module."""
 
+import contextlib
+
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 import numpy as np
 import spglib
 
+from spglib import SpglibError
+
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
-    from spglib.spglib import SpglibDataset
+    from spglib.spg import SpglibDataset
 
 
 type Coordinate = Sequence[float]
 
 
 __all__ = ["Crystal"]
+
+
+with contextlib.suppress(AttributeError):
+    spglib.error.OLD_ERROR_HANDLING = False
 
 
 class Crystal:
@@ -25,7 +33,7 @@ class Crystal:
 
     Attributes
     ----------
-    symmetry_dataset : spglib.spglib.SpglibDataset
+    symmetry_dataset : spglib.spg.SpglibDataset
         Dataclass containing symmetry related information.
 
     Examples
@@ -76,15 +84,15 @@ class Crystal:
             If the symmetry search failed.
         """
         cell = (lattice, positions, numbers)
-        symmetry_dataset = spglib.spglib.get_symmetry_dataset(
-            cell, symprec=symmetry_precision, angle_tolerance=angle_tolerance
-        )
+        try:
+            symmetry_dataset = spglib.spg.get_symmetry_dataset(
+                cell, symprec=symmetry_precision, angle_tolerance=angle_tolerance
+            )
+        except SpglibError as exc:
+            msg = "cannot instantiate due to failed symmetry search."
+            raise ValueError(msg) from exc
 
-        if symmetry_dataset is None:
-            msg = f"spglib failed due to {spglib.spglib.get_error_message()}."
-            raise ValueError(msg)
-
-        self.symmetry_dataset: SpglibDataset = symmetry_dataset
+        self.symmetry_dataset: SpglibDataset = symmetry_dataset  # type: ignore [reportAttributeAccessIssue]
         self.lattice: NDArray[np.double] = np.asarray(lattice, dtype=np.double)
         self.positions: NDArray[np.double] = np.asarray(positions, dtype=np.double)
         self.numbers: NDArray[np.ubyte] = np.asarray(numbers, dtype=np.ubyte)

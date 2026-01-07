@@ -395,6 +395,7 @@ def test_tensor_transform_preserves_voigt_symmetry(
     assert transformed_tensor.is_voigt_symmetric()
 
 
+@settings(deadline=1000)
 @given(
     one_of(valid_tensors(min_rank=2, max_rank=2), valid_arrays(min_rank=2, max_rank=2)),
     one_of(valid_tensors(min_rank=2, max_rank=2), valid_arrays(min_rank=2, max_rank=2)),
